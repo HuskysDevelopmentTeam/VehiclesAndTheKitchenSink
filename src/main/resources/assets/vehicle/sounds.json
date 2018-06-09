@@ -1,0 +1,29 @@
+{
+    "horn_mono": {
+        "sounds": [ {"name": "vehicle:horn_mono"}]
+    },
+    "horn_stereo": {
+        "sounds": [ {"name": "vehicle:horn_stereo"}]
+    },
+    "atv_engine_mono": {
+        "sounds": [ {"name": "vehicle:atv_engine_mono"}]
+    },
+    "atv_engine_stereo": {
+        "sounds": [ {"name": "vehicle:atv_engine_stereo"}]
+    },
+    "go_kart_engine_mono": {
+        "sounds": [ {"name": "vehicle:go_kart_engine_mono"}]
+    },
+    "go_kart_engine_stereo": {
+        "sounds": [ {"name": "vehicle:go_kart_engine_stereo"}]
+    },
+    "electric_engine_mono": {
+        "sounds": [ {"name": "vehicle:electric_engine_mono"}]
+    },
+    "electric_engine_stereo": {
+        "sounds": [ {"name": "vehicle:electric_engine_stereo"}]
+    },
+    "bonk": {
+        "sounds": [ {"name": "vehicle:bonk"}]
+    }
+}
