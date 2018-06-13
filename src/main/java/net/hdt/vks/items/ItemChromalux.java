@@ -1,20 +1,13 @@
 package net.hdt.vks.items;
 
-import com.mrcrayfish.vehicle.entity.EntityLandVehicle;
-import com.mrcrayfish.vehicle.entity.EntitySeaVehicle;
 import net.hdt.huskylib2.items.ItemMod;
-import net.hdt.huskylib2.utils.math.Vector3;
-import net.hdt.vks.entity.EntityVKSAirVehicle;
-import net.hdt.vks.entity.EntityVKSMotorcycle;
-import net.hdt.vks.utils.IColorHolder;
-import net.hdt.vks.utils.ItemNBTUtils;
-import net.minecraft.block.state.IBlockState;
+import net.hdt.vks.VehiclesAndTheKitchenSink;
+import net.hdt.vks.utils.ItemNBTHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -63,7 +56,8 @@ public class ItemChromalux extends ItemMod {
         {
             if(hasColor(stack))
             {
-                tooltip.add(I18n.format("item.color", TextFormatting.DARK_GRAY.toString() + String.format("#%06X", createTagCompound(stack).getInteger("color"))));
+                tooltip.add(I18n.format("item.color", TextFormatting.fromColorIndex(new Color(getColor(stack)).getRGB()) + String.format("#%06X", createTagCompound(stack).getInteger("color"))));
+                ItemNBTHelper.setInt(new ItemStack(this), "vks:chromalux", 15);
             }
             else
             {
@@ -74,38 +68,10 @@ public class ItemChromalux extends ItemMod {
     }
 
     @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        ItemStack stack = player.getHeldItem(hand);
-        IBlockState state = world.getBlockState(pos);
+    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
-        if(state.getBlock() instanceof IColorHolder) {
-            IColorHolder holder = (IColorHolder)state.getBlock();
-            Vector3 hit = new Vector3(hitX, hitY, hitZ);
-
-            if(player.isSneaking()) {
-                ItemNBTUtils.setInteger(stack, "color", holder.getColor(world, pos, state, facing, hit.vec3()));
-            }
-            else {
-                int color = ItemNBTUtils.hasKey(stack, "color") ? ItemNBTUtils.getInteger(stack, "color") : 0xFFFFFFFF;
-                holder.setColor(world, pos, state, facing, hit.vec3(), color);
-            }
-
-            return EnumActionResult.SUCCESS;
-        }
-
-        if(!world.isRemote && player.isSneaking()) {
-            for(Entity entity : world.loadedEntityList) {
-                if(entity instanceof EntityLandVehicle || entity instanceof EntityVKSMotorcycle || entity instanceof EntitySeaVehicle || entity instanceof EntityVKSAirVehicle) {
-                    EntityLandVehicle landVehicle = (EntityLandVehicle) entity;
-                    EntityVKSMotorcycle motorcycle = (EntityVKSMotorcycle) entity;
-                    EntitySeaVehicle seaVehicle = (EntitySeaVehicle) entity;
-                    EntityVKSAirVehicle airVehicle = (EntityVKSAirVehicle) entity;
-                    landVehicle.setColor(color.getRGB());
-                    motorcycle.setColor(color.getRGB());
-                    seaVehicle.setColor(color.getRGB());
-                    airVehicle.setColor(color.getRGB());
-                }
-            }
+        if(!worldIn.isRemote && player.isSneaking()) {
+            player.openGui(VehiclesAndTheKitchenSink.instance, 1, worldIn, pos.getX(), pos.getY(), pos.getZ());
         }
 
         return EnumActionResult.PASS;

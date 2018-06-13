@@ -74,4 +74,5 @@ public class ClientEvents {
             model.bipedLeftLeg.rotateAngleY = (float) Math.toRadians(-15F);
         }
     }
+
 }

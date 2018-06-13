@@ -1,6 +1,7 @@
 package net.hdt.vks;
 
 import com.mrcrayfish.vehicle.entity.EntityVehicle;
+import net.hdt.vks.client.TestEventClass;
 import net.hdt.vks.entity.vehicle.*;
 import net.hdt.vks.init.GuiHandler;
 import net.hdt.vks.init.ModItems;
@@ -9,6 +10,7 @@ import net.hdt.vks.proxy.SProxy;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -41,6 +43,7 @@ public class VehiclesAndTheKitchenSink {
     public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
         RegistrationHandler.init();
+        MinecraftForge.EVENT_BUS.register(TestEventClass.class);
         proxy.preInit(event);
     }
 

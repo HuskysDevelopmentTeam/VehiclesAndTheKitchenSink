@@ -121,7 +121,7 @@ public abstract class EntityVKSAirVehicle extends EntityVehicle {
 
         if(!isBeingRidden()) {
             if(this.motionY > minHeightLimitation) {
-                this.motionY -= 0.03D / 50F;
+                this.motionY = minHeightLimitation;
             }
         }
 

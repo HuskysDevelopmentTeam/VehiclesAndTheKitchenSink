@@ -1,5 +1,6 @@
 package net.hdt.vks.proxy;
 
+import com.mrcrayfish.vehicle.init.RegistrationHandler;
 import com.mrcrayfish.vehicle.item.ItemSprayCan;
 import json_generator.JsonGenerator;
 import net.hdt.huskylib2.blocks.BlockMod;
@@ -16,7 +17,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -62,14 +62,24 @@ public class CProxy extends SProxy {
             }
             return 0x7f0000; // Red
         };
+        IItemColor color2 = (stack, index) ->
+        {
+            if(index == 0 && stack.hasTagCompound() && stack.getTagCompound().hasKey("color", Constants.NBT.TAG_INT))
+            {
+                return stack.getTagCompound().getInteger("color");
+            }
+            return 0x7f0000;
+        };
         ForgeRegistries.ITEMS.forEach((item) -> {
             if(item instanceof ItemChromalux || (item instanceof ItemPart && ((ItemPart) item).isColored())) Minecraft.getMinecraft().getItemColors().registerItemColorHandler(color, item);
         });
-        if(Loader.isModLoaded("vehicle")) {
-            ForgeRegistries.ITEMS.forEach((item) -> {
-                if(item instanceof ItemSprayCan || (item instanceof com.mrcrayfish.vehicle.item.ItemPart && ((com.mrcrayfish.vehicle.item.ItemPart) item).isColored())) Minecraft.getMinecraft().getItemColors().registerItemColorHandler(color, item);
-            });
-        }
+        RegistrationHandler.Items.getItems().forEach(item ->
+        {
+            if(item instanceof ItemSprayCan || (item instanceof com.mrcrayfish.vehicle.item.ItemPart && ((com.mrcrayfish.vehicle.item.ItemPart) item).isColored()))
+            {
+                Minecraft.getMinecraft().getItemColors().registerItemColorHandler(color, item);
+            }
+        });
         ForgeRegistries.ITEMS.forEach((item) -> {
             if(item instanceof ItemMod) JsonGenerator.genLangFile(MOD_ID, item.getUnlocalizedName(), item.getRegistryName().getResourcePath(), "items", "Item");
         });
