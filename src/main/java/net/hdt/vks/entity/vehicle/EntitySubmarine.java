@@ -1,7 +1,7 @@
 package net.hdt.vks.entity.vehicle;
 
-import com.mrcrayfish.vehicle.entity.EntitySeaVehicle;
 import com.mrcrayfish.vehicle.init.ModSounds;
+import net.hdt.vks.entity.EntityVKSSeaVehicle;
 import net.hdt.vks.init.ModItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -10,7 +10,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class EntitySubmarine extends EntitySeaVehicle {
+public class EntitySubmarine extends EntityVKSSeaVehicle {
 
     public EntitySubmarine(World worldIn) {
         super(worldIn);
@@ -20,12 +20,8 @@ public class EntitySubmarine extends EntitySeaVehicle {
     }
 
     @Override
-    public void entityInit() {
-        super.entityInit();
-
-        if (world.isRemote) {
-            body = new ItemStack(ModItems.SUBMARINE_BODY);
-        }
+    public void onClientInit() {
+        body = new ItemStack(ModItems.SUBMARINE_BODY);
     }
 
     @Override

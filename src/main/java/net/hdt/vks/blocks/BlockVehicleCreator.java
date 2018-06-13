@@ -1,6 +1,6 @@
 package net.hdt.vks.blocks;
 
-import com.mrcrayfish.vehicle.block.BlockObject;
+import net.hdt.huskylib2.blocks.BlockFacing;
 import net.hdt.vks.tileentities.TileEntityVehicleCreator;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -12,10 +12,12 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockVehicleCreator extends BlockObject {
+import static net.hdt.vks.Reference.MOD_ID;
+
+public class BlockVehicleCreator extends BlockFacing {
 
     public BlockVehicleCreator() {
-        super(Material.IRON, "vehicle_creator");
+        super(Material.IRON, MOD_ID, "vehicle_creator");
     }
 
     @Override

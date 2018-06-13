@@ -1,29 +1,21 @@
 package net.hdt.vks.blocks;
 
-import com.mrcrayfish.vehicle.VehicleMod;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.MapColor;
+import net.hdt.huskylib2.blocks.BlockMod;
+import net.hdt.vks.VehiclesAndTheKitchenSink;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+
+import static net.hdt.vks.Reference.MOD_ID;
 
 /**
  * Author: MrCrayfish
  */
-public class BlockObject extends Block {
-    public BlockObject(Material material, String id) {
-        this(material, material.getMaterialMapColor(), id);
-    }
+public class BlockObject extends BlockMod {
 
-    public BlockObject(Material material, MapColor mapColor, String id) {
-        super(material, mapColor);
-        this.setUnlocalizedName(id);
-        this.setRegistryName(id);
-        this.setCreativeTab(VehicleMod.CREATIVE_TAB);
+    public BlockObject(Material material, String id) {
+        super(material, MOD_ID, id);
+        this.setCreativeTab(VehiclesAndTheKitchenSink.CREATIVE_TAB);
     }
 
     @Override
@@ -41,7 +33,4 @@ public class BlockObject extends Block {
         return EnumBlockRenderType.MODEL;
     }
 
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
-        return BlockFaceShape.MIDDLE_POLE;
-    }
 }

@@ -1,13 +1,10 @@
 package net.hdt.vks.entity.vehicle;
 
-import com.mrcrayfish.vehicle.entity.EntityColoredMotorcycle;
 import com.mrcrayfish.vehicle.init.ModSounds;
+import net.hdt.vks.entity.EntityVKSMotorcycle;
 import net.hdt.vks.init.ModItems;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -15,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /**
  * Author: MrCrayfish
  */
-public class EntityBMXBike extends EntityColoredMotorcycle {
+public class EntityBMXBike extends EntityVKSMotorcycle {
     /**
      * ItemStack instances used for rendering
      */
@@ -29,32 +26,10 @@ public class EntityBMXBike extends EntityColoredMotorcycle {
     }
 
     @Override
-    public void entityInit() {
-        super.entityInit();
-
-        if (world.isRemote) {
-            body = new ItemStack(ModItems.BMX_BIKE_BODY);
-            wheel = new ItemStack(com.mrcrayfish.vehicle.init.ModItems.WHEEL);
-            handleBar = new ItemStack(ModItems.BMX_BIKE_HANDLE_BAR);
-        }
-    }
-
-    @Override
-    public void notifyDataManagerChange(DataParameter<?> key) {
-        super.notifyDataManagerChange(key);
-        if (world.isRemote) {
-            if (COLOR.equals(key)) {
-                NBTTagCompound nbt;
-                if (body.hasTagCompound()) {
-                    nbt = body.getTagCompound();
-                } else {
-                    nbt = new NBTTagCompound();
-                }
-                nbt.setInteger("color", this.dataManager.get(COLOR));
-                body.setTagCompound(nbt);
-                handleBar.setTagCompound(nbt);
-            }
-        }
+    public void onClientInit() {
+        body = new ItemStack(ModItems.BMX_BIKE_BODY);
+        wheel = new ItemStack(com.mrcrayfish.vehicle.init.ModItems.WHEEL);
+        handleBar = new ItemStack(ModItems.BMX_BIKE_HANDLE_BAR);
     }
 
     @Override
@@ -79,16 +54,16 @@ public class EntityBMXBike extends EntityColoredMotorcycle {
 
     @Override
     public boolean shouldShowEngineSmoke() {
-        return true;
-    }
-
-    @Override
-    public Vec3d getEngineSmokePosition() {
-        return new Vec3d(0, 0.55, 0);
+        return false;
     }
 
     @Override
     public double getMountedYOffset() {
         return 9.5 * 0.0625;
+    }
+
+    @Override
+    public boolean canBeColored() {
+        return true;
     }
 }

@@ -8,7 +8,15 @@ import net.hdt.vks.enums.TrainEngineTypes;
 import net.hdt.vks.enums.TrainWheelTypes;
 import net.hdt.vks.items.*;
 import net.minecraft.item.Item;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.awt.*;
+
+import static net.hdt.vks.Reference.MOD_ID;
+
+@Mod.EventBusSubscriber(modid = MOD_ID)
 public class ModItems {
 
     public static final Item SUBMARINE_BODY;
@@ -43,61 +51,62 @@ public class ModItems {
     public static final Item DB_ICE_MOTORCART, C62_STEAM_LOCOMOTIVE, C62_STEAM_LOCOMOTIVE_TENDER, RBH_TE_2_2;
 
     public static final Item TRAIN_CONTROLLER;
-    public static final Item TEST_OBJECT;
+
+    public static final Item CHROMALUX;
 
     static {
-        SUBMARINE_BODY = new ItemColoredPart("submarine_body");
-        PLANE_BODY = new ItemColoredPart("plane_body");
+        SUBMARINE_BODY = new ItemPart("submarine_body").setColored();
+        PLANE_BODY = new ItemPart("plane_body").setColored();
         PLANE_MOTOR = new ItemPart("plane_engine");
-        PLANE_WING = new ItemColoredPart("plane_wing");
-        HELICOPTER_BODY = new ItemColoredPart("helicopter_body");
+        PLANE_WING = new ItemPart("plane_wing").setColored();
+        HELICOPTER_BODY = new ItemPart("helicopter_body").setColored();
         HELICOPTER_ROTOR = new ItemPart("helicopter_rotor");
         HELICOPTER_WINGS = new ItemPart("helicopter_rotor_wings");
-        UFO_BODY = new ItemColoredPart("ufo_body");
-        ROCKET_BODY = new ItemColoredPart("rocket_body");
+        UFO_BODY = new ItemPart("ufo_body").setColored();
+        ROCKET_BODY = new ItemPart("rocket_body").setColored();
         ROCKET_ENGINES = new ItemPart("rocket_engine");
-        CAR_TRAILER_FRONT_HOUSE_BODY = new ItemColoredPart("car_trailer_front_house_body");
-        CAR_TRAILER_CONTAINER_BODY = new ItemColoredPart("car_trailer_container_holder");
-        CONTAINER = new ItemColoredPart("container");
-        RACE_CAR_BODY = new ItemColoredPart("racing_car_body");
-        STEERING_WHEEL = new ItemColoredPart("steering_wheel");
+        CAR_TRAILER_FRONT_HOUSE_BODY = new ItemPart("car_trailer_front_house_body").setColored();
+        CAR_TRAILER_CONTAINER_BODY = new ItemPart("car_trailer_container_holder").setColored();
+        CONTAINER = new ItemPart("container").setColored();
+        RACE_CAR_BODY = new ItemPart("racing_car_body").setColored();
+        STEERING_WHEEL = new ItemPart("steering_wheel").setColored();
         CAR_WHEEL = new ItemPart("car_wheel");
 
-        BMX_BIKE_BODY = new ItemColoredPart("bmx_bike_body");
-        BMX_BIKE_HANDLE_BAR = new ItemColoredPart("bmx_bike_handle_bar");
-        SCOOTER_BODY = new ItemColoredPart("scooter_body");
-        SCOOTER_WHEEL = new ItemColoredPart("scooter_wheel");
-        SCOOTER_HANDLE_BAR = new ItemColoredPart("scooter_handle_bar");
-        MOTORCYCLE_BODY = new ItemColoredPart("motorcycle_body");
-        MOTORCYCLE_HANDLE_BAR = new ItemColoredPart("motorcycle_handle_bar");
+        BMX_BIKE_BODY = new ItemPart("bmx_bike_body").setColored();
+        BMX_BIKE_HANDLE_BAR = new ItemPart("bmx_bike_handle_bar").setColored();
+        SCOOTER_BODY = new ItemPart("scooter_body").setColored();
+        SCOOTER_WHEEL = new ItemPart("scooter_wheel").setColored();
+        SCOOTER_HANDLE_BAR = new ItemPart("scooter_handle_bar").setColored();
+        MOTORCYCLE_BODY = new ItemPart("motorcycle_body").setColored();
+        MOTORCYCLE_HANDLE_BAR = new ItemPart("motorcycle_handle_bar").setColored();
 
-        SNOW_MOBILE_BODY = new ItemColoredPart("snow_mobile");
-        SNOW_MOBILE_HANDLE_BAR = new ItemColoredPart("snow_mobile_handle_bar");
+        SNOW_MOBILE_BODY = new ItemPart("snow_mobile").setColored();
+        SNOW_MOBILE_HANDLE_BAR = new ItemPart("snow_mobile_handle_bar").setColored();
         SNOW_MOBILE_SKI = new ItemPart("snow_mobile_ski");
         SNOW_MOBILE_TRACKS_MODULE = new ItemPart("snow_mobile_tracks_module");
 
         SLEIGHT_BODY = new ItemPart("sleight");
-        SANTA_SLEIGHT_BODY = new ItemColoredPart("santa_sleight");
+        SANTA_SLEIGHT_BODY = new ItemPart("santa_sleight").setColored();
 
-        HIGH_BOOSTER_BOARD = new ItemColoredPart("high_booster_board");
+        HIGH_BOOSTER_BOARD = new ItemPart("high_booster_board").setColored();
 
-        COVER_F_BODY = new ItemColoredPart("cover_f_body");
-        COVER_F_STEERING_THING = new ItemColoredPart("cover_f_steering_thing");
-        COVER_P_BODY = new ItemColoredPart("cover_p_body");
-        COVER_P_STEERING_THING = new ItemColoredPart("cover_p_steering_thing");
-        COVER_S_BODY = new ItemColoredPart("cover_s_body");
-        COVER_S_STEERING_THING = new ItemColoredPart("cover_s_steering_thing");
+        COVER_F_BODY = new ItemPart("cover_f_body").setColored();
+        COVER_F_STEERING_THING = new ItemPart("cover_f_steering_thing").setColored();
+        COVER_P_BODY = new ItemPart("cover_p_body").setColored();
+        COVER_P_STEERING_THING = new ItemPart("cover_p_steering_thing").setColored();
+        COVER_S_BODY = new ItemPart("cover_s_body").setColored();
+        COVER_S_STEERING_THING = new ItemPart("cover_s_steering_thing").setColored();
 
-        TOY_STEAM_LOCOMOTIVE_BODY = new ItemColoredPart("toy_steam_locomotive_body");
-        TOY_TRAIN_CARRIAGE_BODY = new ItemColoredPart("toy_train_carriage_body");
+        TOY_STEAM_LOCOMOTIVE_BODY = new ItemPart("toy_steam_locomotive_body").setColored();
+        TOY_TRAIN_CARRIAGE_BODY = new ItemPart("toy_train_carriage_body").setColored();
 
         for (TrainWheelTypes wheelTypes : TrainWheelTypes.values()) {
             TRAIN_WHEEL[wheelTypes.getId()] = new ItemPart(wheelTypes.getName() + "_wheel");
         }
-        DB_ICE_MOTORCART_BODY = new ItemColoredPart("db_ice_motorcart_electric_body");
-        C62_STEAM_LOCOMOTIVE_BODY = new ItemColoredPart("C62_steam_locomotive_body");
-        C62_STEAM_LOCOMOTIVE_TENDER_BODY = new ItemColoredPart("C62_steam_locomotive_tender_body");
-        RBH_TE_2_2_BODY = new ItemColoredPart("rhb_te_2_2_body");
+        DB_ICE_MOTORCART_BODY = new ItemPart("db_ice_motorcart_electric_body").setColored();
+        C62_STEAM_LOCOMOTIVE_BODY = new ItemPart("C62_steam_locomotive_body").setColored();
+        C62_STEAM_LOCOMOTIVE_TENDER_BODY = new ItemPart("C62_steam_locomotive_tender_body").setColored();
+        RBH_TE_2_2_BODY = new ItemPart("rhb_te_2_2_body").setColored();
         DB_ICE_MOTORCART = new ItemModelTrain("db_ice_motorcart_electric", EntityDBIceMotorcart.class);
         RBH_TE_2_2 = new ItemModelTrain("rhb_te_2_2", EntityRbhTE22.class);
         C62_STEAM_LOCOMOTIVE = new ItemModelTrain("C62_steam_locomotive", EntityC62SteamLocomotive.class);
@@ -107,77 +116,12 @@ public class ModItems {
             ENGINE[type.getId()] = new ItemEngine(type);
         }
 
-        TEST_OBJECT = new ItemPart("test_object");
+        CHROMALUX = new ItemChromalux(Color.RED);
     }
 
-    public static void register() {
-        register(SUBMARINE_BODY);
-        register(PLANE_BODY);
-        register(PLANE_MOTOR);
-        register(PLANE_WING);
-        register(HELICOPTER_BODY);
-        register(HELICOPTER_ROTOR);
-        register(HELICOPTER_WINGS);
-        register(UFO_BODY);
-        register(ROCKET_BODY);
-        register(ROCKET_ENGINES);
-        register(CAR_TRAILER_FRONT_HOUSE_BODY);
-        register(CAR_TRAILER_CONTAINER_BODY);
-        register(CONTAINER);
-        register(RACE_CAR_BODY);
-        register(STEERING_WHEEL);
-        register(CAR_WHEEL);
+    @SubscribeEvent
+    public static void registerBlocks(RegistryEvent.Register<Item> event) {
 
-        register(BMX_BIKE_BODY);
-        register(BMX_BIKE_HANDLE_BAR);
-        register(SCOOTER_BODY);
-        register(SCOOTER_WHEEL);
-        register(SCOOTER_HANDLE_BAR);
-        register(MOTORCYCLE_BODY);
-        register(MOTORCYCLE_HANDLE_BAR);
-
-        register(SNOW_MOBILE_BODY);
-        register(SNOW_MOBILE_HANDLE_BAR);
-        register(SNOW_MOBILE_SKI);
-        register(SNOW_MOBILE_TRACKS_MODULE);
-
-        register(SLEIGHT_BODY);
-        register(SANTA_SLEIGHT_BODY);
-
-        register(HIGH_BOOSTER_BOARD);
-
-        register(COVER_F_BODY);
-        register(COVER_F_STEERING_THING);
-        register(COVER_P_BODY);
-        register(COVER_P_STEERING_THING);
-        register(COVER_S_BODY);
-        register(COVER_S_STEERING_THING);
-
-        register(TOY_STEAM_LOCOMOTIVE_BODY);
-        register(TOY_TRAIN_CARRIAGE_BODY);
-
-        for (TrainWheelTypes type : TrainWheelTypes.values()) {
-            register(TRAIN_WHEEL[type.getId()]);
-        }
-
-        register(DB_ICE_MOTORCART_BODY);
-        register(DB_ICE_MOTORCART);
-        register(C62_STEAM_LOCOMOTIVE_BODY);
-        register(C62_STEAM_LOCOMOTIVE);
-        register(C62_STEAM_LOCOMOTIVE_TENDER_BODY);
-        register(C62_STEAM_LOCOMOTIVE_TENDER);
-        register(RBH_TE_2_2_BODY);
-        register(RBH_TE_2_2);
-        register(TRAIN_CONTROLLER);
-
-        for (TrainEngineTypes type : TrainEngineTypes.values()) {
-            register(ENGINE[type.getId()]);
-        }
-
-        register(TEST_OBJECT);
     }
 
-    private static void register(Item item) {
-        RegistrationHandler.Items.add(item);
-    }
 }

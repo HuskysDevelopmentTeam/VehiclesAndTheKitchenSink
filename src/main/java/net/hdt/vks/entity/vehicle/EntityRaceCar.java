@@ -1,7 +1,7 @@
 package net.hdt.vks.entity.vehicle;
 
-import com.mrcrayfish.vehicle.entity.EntityColoredLandVehicle;
 import com.mrcrayfish.vehicle.init.ModSounds;
+import net.hdt.vks.entity.EntityVKSLandVehicle;
 import net.hdt.vks.init.ModItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /**
  * Author: HuskyTheArtist
  */
-public class EntityRaceCar extends EntityColoredLandVehicle {
+public class EntityRaceCar extends EntityVKSLandVehicle {
     /**
      * ItemStack instances used for rendering
      */
@@ -26,14 +26,10 @@ public class EntityRaceCar extends EntityColoredLandVehicle {
     }
 
     @Override
-    public void entityInit() {
-        super.entityInit();
-
-        if (world.isRemote) {
-            body = new ItemStack(ModItems.RACE_CAR_BODY);
-            wheel = new ItemStack(ModItems.CAR_WHEEL);
-            steeringWheel = new ItemStack(ModItems.STEERING_WHEEL);
-        }
+    public void onClientInit() {
+        body = new ItemStack(ModItems.RACE_CAR_BODY);
+        wheel = new ItemStack(ModItems.CAR_WHEEL);
+        steeringWheel = new ItemStack(ModItems.STEERING_WHEEL);
     }
 
     @Override
@@ -59,6 +55,11 @@ public class EntityRaceCar extends EntityColoredLandVehicle {
     @Override
     public double getMountedYOffset() {
         return 2 * 0.0625F;
+    }
+
+    @Override
+    public boolean canBeColored() {
+        return true;
     }
 
 }

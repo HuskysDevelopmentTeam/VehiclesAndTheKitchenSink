@@ -47,9 +47,7 @@ public class VehiclesAndTheKitchenSink {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
-
         registerVehicles();
-
         proxy.init(event);
     }
 
@@ -68,9 +66,8 @@ public class VehiclesAndTheKitchenSink {
         registerVehicle("santa_sleight", EntitySantaSleight.class);
         registerVehicle("snow_mobile", EntitySnowMobile.class);
         registerVehicle("high_booster_board", EntityHighBoosterBoard.class);
-        registerVehicle("test_object", EntityTestObject.class);
 
-        //TODO: Add Small Truck, UFO, Plane, Helicopter, Rocket, Car Trailer, Mini Van, Basic Car, Lamborghini, Bus, Metro, Hoverboard, Motorboat, Small Plane, Tanks, Bomb Planes
+        //TODO: Add Small Truck, UFO, Plane, Helicopter, Rocket, Car Trailer, Mini Van, Basic Car, Lamborghini, Bus, Metro, Small Plane, Tanks, Bomb Planes
     }
 
     private void registerVehicle(String id, Class<? extends EntityVehicle> clazz) {

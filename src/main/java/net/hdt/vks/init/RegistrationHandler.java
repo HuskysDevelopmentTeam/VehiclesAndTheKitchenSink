@@ -1,7 +1,6 @@
 package net.hdt.vks.init;
 
 import com.mrcrayfish.vehicle.item.SubItems;
-import json_generator.JsonGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -23,8 +22,9 @@ import static net.hdt.vks.Reference.MOD_ID;
 public class RegistrationHandler {
 
     public static void init() {
-        ModItems.register();
-        ModBlocks.register();
+//        ModItems.register();
+//        ModBlocks.register();
+        ModRecipes.register();
     }
 
     @Mod.EventBusSubscriber(modid = MOD_ID)
@@ -38,7 +38,6 @@ public class RegistrationHandler {
         @SubscribeEvent
         public static void register(final RegistryEvent.Register<Block> event) {
             BLOCKS.forEach(block -> event.getRegistry().register(block));
-            BLOCKS.forEach(block -> JsonGenerator.genLangFile(MOD_ID, block.getUnlocalizedName().substring(5), block.getUnlocalizedName().substring(5), "blocks"));
         }
     }
 
@@ -57,7 +56,6 @@ public class RegistrationHandler {
         @SubscribeEvent
         public static void register(final RegistryEvent.Register<Item> event) {
             ITEMS.forEach(item -> event.getRegistry().register(item));
-            ITEMS.forEach(item -> JsonGenerator.genLangFile(MOD_ID, item.getUnlocalizedName().substring(5), item.getUnlocalizedName().substring(5), "items"));
         }
     }
 

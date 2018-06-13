@@ -1,7 +1,7 @@
 package net.hdt.vks.entity.vehicle;
 
 import com.mrcrayfish.vehicle.init.ModSounds;
-import net.hdt.vks.entity.EntityColoredAirVehicle;
+import net.hdt.vks.entity.EntityVKSAirVehicle;
 import net.hdt.vks.init.ModItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityHighBoosterBoard extends EntityColoredAirVehicle {
+public class EntityHighBoosterBoard extends EntityVKSAirVehicle {
     /**
      * ItemStack instances used for rendering
      */
@@ -23,13 +23,9 @@ public class EntityHighBoosterBoard extends EntityColoredAirVehicle {
     }
 
     @Override
-    public void entityInit() {
-        super.entityInit();
-
-        if (world.isRemote) {
-            body = new ItemStack(ModItems.HIGH_BOOSTER_BOARD);
-            wheel = new ItemStack(com.mrcrayfish.vehicle.init.ModItems.WHEEL);
-        }
+    public void onClientInit() {
+        body = new ItemStack(ModItems.HIGH_BOOSTER_BOARD);
+        wheel = ItemStack.EMPTY;
     }
 
     @Override
@@ -60,6 +56,11 @@ public class EntityHighBoosterBoard extends EntityColoredAirVehicle {
     @Override
     public double getMountedYOffset() {
         return 10 * 0.0625;
+    }
+
+    @Override
+    public boolean canBeColored() {
+        return true;
     }
 
 }

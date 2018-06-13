@@ -35,7 +35,7 @@ public class JsonGenerator {
         }
 
         for(Item item : RegistrationHandler.Items.getItems()) {
-            genLangFile(modid, item.getUnlocalizedName().substring(5), item.getUnlocalizedName().substring(5), "blocks");
+            genLangFile(modid, item.getUnlocalizedName().substring(5), item.getUnlocalizedName().substring(5), "blocks", "Block");
         }
 
     }
@@ -1287,7 +1287,7 @@ public class JsonGenerator {
         }
     }
 
-    public static void genLangFile(String modid, String block_name, String unlocalized_name, String lang_file_name) {
+    public static void genLangFile(String modid, String block_name, String unlocalized_name, String lang_file_name, String type) {
         Path base = Paths.get("src", "main", "resources", "assets", modid, "lang");
         if (!base.toFile().exists()) {
             base.toFile().mkdirs();
@@ -1295,7 +1295,20 @@ public class JsonGenerator {
         try (BufferedWriter w = Files.newBufferedWriter(base.resolve(String.format("%s.lang", lang_file_name)), StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
             String name = unlocalized_name.replace("_", " ");
             unlocalized_name = WordUtils.capitalizeFully(name);
-            w.write("tile." + block_name + ".name=" + unlocalized_name + "\n");
+            switch (type) {
+                case "Block":
+                    w.write("tile." + block_name + ".name=" + unlocalized_name + "\n");
+                    break;
+                case "Item":
+                    w.write("item." + block_name + ".name=" + unlocalized_name + "\n");
+                    break;
+                case "Entity":
+                    w.write("entity." + block_name + ".name=" + unlocalized_name + "\n");
+                    break;
+            }
+            if(base.toFile().exists()) {
+                base.toFile().createNewFile();
+            }
         } catch (IOException ignored) {
             System.out.print(String.format("Error creating file %s.json" + "\n", lang_file_name));
         }

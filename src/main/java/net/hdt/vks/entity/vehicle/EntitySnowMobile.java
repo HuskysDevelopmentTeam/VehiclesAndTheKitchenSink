@@ -1,7 +1,7 @@
 package net.hdt.vks.entity.vehicle;
 
-import com.mrcrayfish.vehicle.entity.EntityColoredMotorcycle;
 import com.mrcrayfish.vehicle.init.ModSounds;
+import net.hdt.vks.entity.EntityVKSMotorcycle;
 import net.hdt.vks.init.ModItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /**
  * Author: MrCrayfish
  */
-public class EntitySnowMobile extends EntityColoredMotorcycle {
+public class EntitySnowMobile extends EntityVKSMotorcycle {
     /**
      * ItemStack instances used for rendering
      */
@@ -26,14 +26,10 @@ public class EntitySnowMobile extends EntityColoredMotorcycle {
     }
 
     @Override
-    public void entityInit() {
-        super.entityInit();
-
-        if (world.isRemote) {
-            body = new ItemStack(ModItems.SNOW_MOBILE_BODY);
-            wheel = new ItemStack(ModItems.SNOW_MOBILE_SKI);
-            handleBar = new ItemStack(ModItems.SNOW_MOBILE_HANDLE_BAR);
-        }
+    public void onClientInit() {
+        body = new ItemStack(ModItems.SNOW_MOBILE_BODY);
+        wheel = new ItemStack(ModItems.SNOW_MOBILE_SKI);
+        handleBar = new ItemStack(ModItems.SNOW_MOBILE_HANDLE_BAR);
     }
 
     @Override
@@ -64,5 +60,10 @@ public class EntitySnowMobile extends EntityColoredMotorcycle {
     @Override
     public boolean shouldRenderEngine() {
         return false;
+    }
+
+    @Override
+    public boolean canBeColored() {
+        return true;
     }
 }

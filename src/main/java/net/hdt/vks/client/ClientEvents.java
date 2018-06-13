@@ -1,7 +1,7 @@
 package net.hdt.vks.client;
 
 import com.mrcrayfish.obfuscate.client.event.ModelPlayerEvent;
-import net.hdt.vks.entity.EntityAirVehicle;
+import net.hdt.vks.entity.EntityVKSAirVehicle;
 import net.hdt.vks.entity.vehicle.EntityHighBoosterBoard;
 import net.hdt.vks.entity.vehicle.EntitySantaSleight;
 import net.hdt.vks.entity.vehicle.EntitySleight;
@@ -10,12 +10,7 @@ import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-
-import java.awt.*;
-import java.text.DecimalFormat;
 
 /**
  * Author: MrCrayfish
@@ -26,9 +21,9 @@ public class ClientEvents {
     public void onPreRender(ModelPlayerEvent.Render.Pre event)
     {
         Entity ridingEntity = event.getEntityPlayer().getRidingEntity();
-        if(ridingEntity instanceof EntityAirVehicle)
+        if(ridingEntity instanceof EntityVKSAirVehicle)
         {
-            EntityVehicle vehicle = (EntityVehicle) ridingEntity;
+            EntityVKSAirVehicle vehicle = (EntityVKSAirVehicle) ridingEntity;
             double offset = vehicle.getMountedYOffset() * 3 - 3 * 0.0625;
             GlStateManager.translate(0, offset, 0);
             float currentSpeedNormal = (vehicle.prevCurrentSpeed + (vehicle.currentSpeed - vehicle.prevCurrentSpeed) * event.getPartialTicks()) / vehicle.getMaxSpeed();
@@ -77,7 +72,6 @@ public class ClientEvents {
             model.bipedRightLeg.rotateAngleY = (float) Math.toRadians(15F);
             model.bipedLeftLeg.rotateAngleX = (float) Math.toRadians(-90F);
             model.bipedLeftLeg.rotateAngleY = (float) Math.toRadians(-15F);
-            return;
         }
     }
 }

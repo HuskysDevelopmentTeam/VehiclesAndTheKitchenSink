@@ -2,7 +2,7 @@ package net.hdt.vks.client.render;
 
 import com.mrcrayfish.vehicle.client.render.RenderVehicle;
 import com.mrcrayfish.vehicle.client.render.Wheel;
-import net.hdt.vks.entity.EntityAirVehicle;
+import net.hdt.vks.entity.EntityVKSAirVehicle;
 import net.minecraft.client.renderer.entity.RenderManager;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Author: MrCrayfish
  */
-public class RenderAirVehicle<T extends EntityAirVehicle> extends RenderVehicle<T> {
+public class RenderAirVehicle<T extends EntityVKSAirVehicle> extends RenderVehicle<T> {
     protected List<Wheel> wheels = new ArrayList<>();
 
     protected RenderAirVehicle(RenderManager renderManager) {

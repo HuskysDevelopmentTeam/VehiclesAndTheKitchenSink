@@ -1,13 +1,13 @@
 package net.hdt.vks.entity.vehicle;
 
 import com.mrcrayfish.vehicle.init.ModSounds;
-import net.hdt.vks.entity.EntityAirVehicle;
+import net.hdt.vks.entity.EntityVKSAirVehicle;
 import net.hdt.vks.init.ModItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
-public class EntityPassengerPlane extends EntityAirVehicle {
+public class EntityPassengerPlane extends EntityVKSAirVehicle {
 
     protected EntityPassengerPlane(World worldIn) {
         super(worldIn);
@@ -16,13 +16,9 @@ public class EntityPassengerPlane extends EntityAirVehicle {
     }
 
     @Override
-    public void entityInit() {
-        super.entityInit();
-
-        if (world.isRemote) {
-            body = new ItemStack(ModItems.HIGH_BOOSTER_BOARD);
-            wheel = new ItemStack(com.mrcrayfish.vehicle.init.ModItems.WHEEL);
-        }
+    public void onClientInit() {
+        body = new ItemStack(ModItems.HIGH_BOOSTER_BOARD);
+        wheel = new ItemStack(com.mrcrayfish.vehicle.init.ModItems.WHEEL);
     }
 
     @Override

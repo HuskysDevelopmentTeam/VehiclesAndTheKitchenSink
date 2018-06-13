@@ -1,21 +1,29 @@
 package net.hdt.vks.proxy;
 
+import com.mrcrayfish.vehicle.item.ItemSprayCan;
+import json_generator.JsonGenerator;
+import net.hdt.huskylib2.blocks.BlockMod;
+import net.hdt.huskylib2.items.ItemMod;
 import net.hdt.vks.client.ClientEvents;
 import net.hdt.vks.client.render.vehicle.*;
 import net.hdt.vks.entity.vehicle.*;
-import net.hdt.vks.init.RegistrationHandler;
-import net.hdt.vks.items.ItemColoredPart;
+import net.hdt.vks.items.ItemChromalux;
+import net.hdt.vks.items.ItemPart;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import org.lwjgl.input.Keyboard;
+
+import static net.hdt.vks.Reference.MOD_ID;
 
 public class CProxy extends SProxy {
 
@@ -39,7 +47,6 @@ public class CProxy extends SProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntitySnowMobile.class, RenderSnowMobile::new);
 
         RenderingRegistry.registerEntityRenderingHandler(EntityHighBoosterBoard.class, RenderHighBoosterBoard::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityTestObject.class, RenderTestObject::new);
 
         ClientRegistry.registerKeyBinding(KEY_HOVERBOARD_LOWERING);
 
@@ -50,17 +57,27 @@ public class CProxy extends SProxy {
     public void init(FMLInitializationEvent event) {
         super.init(event);
         IItemColor color = (stack, index) -> {
-            if (stack.hasTagCompound() && index == 1) {
+            if (stack.getTagCompound() != null && index == 1 && stack.hasTagCompound() && stack.getTagCompound().hasKey("color", Constants.NBT.TAG_INT)) {
                 return stack.getTagCompound().getInteger("color");
             }
             return 0x7f0000; // Red
         };
-
-        for (Item item : RegistrationHandler.Items.getItems()) {
-            if (item instanceof ItemColoredPart) {
-                Minecraft.getMinecraft().getItemColors().registerItemColorHandler(color, item);
-            }
+        ForgeRegistries.ITEMS.forEach((item) -> {
+            if(item instanceof ItemChromalux || (item instanceof ItemPart && ((ItemPart) item).isColored())) Minecraft.getMinecraft().getItemColors().registerItemColorHandler(color, item);
+        });
+        if(Loader.isModLoaded("vehicle")) {
+            ForgeRegistries.ITEMS.forEach((item) -> {
+                if(item instanceof ItemSprayCan || (item instanceof com.mrcrayfish.vehicle.item.ItemPart && ((com.mrcrayfish.vehicle.item.ItemPart) item).isColored())) Minecraft.getMinecraft().getItemColors().registerItemColorHandler(color, item);
+            });
         }
+        ForgeRegistries.ITEMS.forEach((item) -> {
+            if(item instanceof ItemMod) JsonGenerator.genLangFile(MOD_ID, item.getUnlocalizedName(), item.getRegistryName().getResourcePath(), "items", "Item");
+        });
+        ForgeRegistries.BLOCKS.forEach((block) -> {
+            if(block instanceof BlockMod) {
+                JsonGenerator.genLangFile(MOD_ID, block.getUnlocalizedName(), block.getRegistryName().getResourcePath(), "blocks", "Block");
+            }
+        });
     }
 
     @Override

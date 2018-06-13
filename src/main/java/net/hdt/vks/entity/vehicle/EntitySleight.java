@@ -1,7 +1,7 @@
 package net.hdt.vks.entity.vehicle;
 
 import com.mrcrayfish.vehicle.common.CommonEvents;
-import com.mrcrayfish.vehicle.entity.EntityLandVehicle;
+import net.hdt.vks.entity.EntityVKSLandVehicle;
 import net.hdt.vks.init.ModItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -10,7 +10,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class EntitySleight extends EntityLandVehicle {
+public class EntitySleight extends EntityVKSLandVehicle {
     private EntityPlayer pusher;
 
     public EntitySleight(World worldIn) {
@@ -18,13 +18,9 @@ public class EntitySleight extends EntityLandVehicle {
     }
 
     @Override
-    public void entityInit() {
-        super.entityInit();
-
-        if (world.isRemote) {
-            body = new ItemStack(ModItems.SLEIGHT_BODY);
-            wheel = new ItemStack(com.mrcrayfish.vehicle.init.ModItems.WHEEL);
-        }
+    public void onClientInit() {
+        body = new ItemStack(ModItems.SLEIGHT_BODY);
+        wheel = ItemStack.EMPTY;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package net.hdt.vks.entity.vehicle;
 
-import com.mrcrayfish.vehicle.entity.EntityColoredMotorcycle;
 import com.mrcrayfish.vehicle.init.ModSounds;
+import net.hdt.vks.entity.EntityVKSMotorcycle;
 import net.hdt.vks.init.ModItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,7 +15,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 /**
  * Author: MrCrayfish
  */
-public class EntityMotorcycle extends EntityColoredMotorcycle {
+public class EntityMotorcycle extends EntityVKSMotorcycle {
+
     /**
      * ItemStack instances used for rendering
      */
@@ -29,14 +30,10 @@ public class EntityMotorcycle extends EntityColoredMotorcycle {
     }
 
     @Override
-    public void entityInit() {
-        super.entityInit();
-
-        if (world.isRemote) {
-            body = new ItemStack(ModItems.MOTORCYCLE_BODY);
-            wheel = new ItemStack(com.mrcrayfish.vehicle.init.ModItems.WHEEL);
-            handleBar = new ItemStack(ModItems.MOTORCYCLE_HANDLE_BAR);
-        }
+    public void onClientInit() {
+        body = new ItemStack(ModItems.MOTORCYCLE_BODY);
+        wheel = new ItemStack(com.mrcrayfish.vehicle.init.ModItems.WHEEL);
+        handleBar = new ItemStack(ModItems.MOTORCYCLE_HANDLE_BAR);
     }
 
     @Override
@@ -90,5 +87,10 @@ public class EntityMotorcycle extends EntityColoredMotorcycle {
     @Override
     public double getMountedYOffset() {
         return 9.5 * 0.0625;
+    }
+
+    @Override
+    public boolean canBeColored() {
+        return true;
     }
 }

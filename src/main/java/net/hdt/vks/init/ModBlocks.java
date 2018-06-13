@@ -1,22 +1,26 @@
 package net.hdt.vks.init;
 
-import net.hdt.vks.VehiclesAndTheKitchenSink;
+import net.hdt.vks.blocks.BlockAsphalt;
 import net.hdt.vks.blocks.BlockObject;
+import net.hdt.vks.blocks.BlockTrack;
 import net.hdt.vks.blocks.BlockVehicleCreator;
 import net.hdt.vks.enums.RoadTypes;
 import net.hdt.vks.enums.TrackType;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.ItemBlock;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-/**
- * Author: MrCrayfish
- */
+import static net.hdt.vks.Reference.MOD_ID;
+
+@Mod.EventBusSubscriber(modid = MOD_ID)
 public class ModBlocks {
+
     public static final Block VEHICLE_CREATOR;
+    public static final Block ASPHALT;
 
     public static final Block[] ROAD = new Block[28];
-    public static final Block ASPHALT;
     public static final Block[] TRACK = new Block[3];
 
     static {
@@ -24,40 +28,19 @@ public class ModBlocks {
         ASPHALT = new BlockObject(Material.ROCK, "asphalt");
 
         for (RoadTypes roadTypes : RoadTypes.values()) {
-            ROAD[roadTypes.getID()] = new BlockObject(Material.ROCK, roadTypes.getName() + "_asphalt");
+            ROAD[roadTypes.getID()] = new BlockAsphalt(roadTypes.getName() + "_asphalt");
         }
 
         for (TrackType trackType : TrackType.values()) {
-            TRACK[trackType.getID()] = new BlockObject(Material.IRON, trackType.getName() + "_track");
+            TRACK[trackType.getID()] = new BlockTrack(trackType.getName() + "_track");
         }
 
         //TODO: Add hyperloop-tunnel, metro tunnels
     }
 
-    public static void register() {
-        registerBlock(VEHICLE_CREATOR);
-        registerBlock(ASPHALT);
+    @SubscribeEvent
+    public static void registerBlocks(RegistryEvent.Register<Block> event) {
 
-        for (RoadTypes roadTypes : RoadTypes.values()) {
-            registerBlock(ROAD[roadTypes.getID()]);
-        }
-
-        for (TrackType trackType : TrackType.values()) {
-            registerBlock(TRACK[trackType.getID()]);
-        }
     }
 
-    private static void registerBlock(Block block) {
-        registerBlock(block, new ItemBlock(block));
-    }
-
-    private static void registerBlock(Block block, ItemBlock item) {
-        if (block.getRegistryName() == null)
-            throw new IllegalArgumentException("A block being registered does not have a registry name and could be successfully registered.");
-
-        block.setCreativeTab(VehiclesAndTheKitchenSink.CREATIVE_TAB);
-        RegistrationHandler.Blocks.add(block);
-        item.setRegistryName(block.getRegistryName());
-        RegistrationHandler.Items.add(item);
-    }
 }
