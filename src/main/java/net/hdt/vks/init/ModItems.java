@@ -116,7 +116,7 @@ public class ModItems {
             ENGINE[type.getId()] = new ItemEngine(type);
         }
 
-        CHROMALUX = new ItemChromalux(Color.RED);
+        CHROMALUX = new ItemChromalux(Color.WHITE);
     }
 
     @SubscribeEvent

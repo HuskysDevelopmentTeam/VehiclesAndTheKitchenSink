@@ -2,9 +2,11 @@ package net.hdt.vks.items;
 
 import net.hdt.huskylib2.items.ItemMod;
 import net.hdt.vks.VehiclesAndTheKitchenSink;
-import net.hdt.vks.utils.ItemNBTHelper;
+import net.hdt.vks.client.render.item.TEISRChromalux;
+import net.hdt.vks.utils.WearableColourUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -29,7 +31,7 @@ import static net.hdt.vks.Reference.MOD_ID;
 public class ItemChromalux extends ItemMod {
 
     private Color color;
-    public static final int MAX_SPRAYS = 5;
+    public static final int MAX_SPRAYS = 10;
 
     public ItemChromalux(Color color) {
         super("chromalux", MOD_ID);
@@ -38,15 +40,6 @@ public class ItemChromalux extends ItemMod {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-//        tooltip.add(String.format("RGBA: R=%d, G=%d, B=%d, A=%d", color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()));
-        /*if(InputUtils.isShiftDown()) {
-            int color = ItemNBTUtils.hasKey(stack, "color") ? ItemNBTUtils.getInteger(stack, "color") : 0xFFFFFFFF;
-            this.color = new Color(color);
-            tooltip.add(TextFormatting.RED + "R: " + getColor().getRed());
-            tooltip.add(TextFormatting.GREEN + "G: " + getColor().getGreen());
-            tooltip.add(TextFormatting.BLUE + "B: " + getColor().getBlue());
-            tooltip.add(TextFormatting.WHITE + "A: " + getColor().getBlue());
-        }*/
         if(GuiScreen.isShiftKeyDown())
         {
             String info = I18n.format("item.chromalux.info");
@@ -56,8 +49,7 @@ public class ItemChromalux extends ItemMod {
         {
             if(hasColor(stack))
             {
-                tooltip.add(I18n.format("item.color", TextFormatting.fromColorIndex(new Color(getColor(stack)).getRGB()) + String.format("#%06X", createTagCompound(stack).getInteger("color"))));
-                ItemNBTHelper.setInt(new ItemStack(this), "vks:chromalux", 15);
+                tooltip.add(I18n.format("item.color", WearableColourUtils.getClosest(getColor(stack)) + String.format("#%06X", createTagCompound(stack).getInteger("color"))));
             }
             else
             {
@@ -65,6 +57,11 @@ public class ItemChromalux extends ItemMod {
             }
             tooltip.add(TextFormatting.YELLOW + "Hold SHIFT for Info");
         }
+    }
+
+    @Override
+    public void setTileEntityItemStackRenderer(@Nullable TileEntityItemStackRenderer teisr) {
+        new TEISRChromalux();
     }
 
     @Override

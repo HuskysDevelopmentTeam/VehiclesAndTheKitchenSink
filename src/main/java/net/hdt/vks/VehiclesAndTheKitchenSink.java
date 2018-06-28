@@ -69,6 +69,7 @@ public class VehiclesAndTheKitchenSink {
         registerVehicle("santa_sleight", EntitySantaSleight.class);
         registerVehicle("snow_mobile", EntitySnowMobile.class);
         registerVehicle("high_booster_board", EntityHighBoosterBoard.class);
+        registerVehicle("rocket", EntityRocket.class);
 
         //TODO: Add Small Truck, UFO, Plane, Helicopter, Rocket, Car Trailer, Mini Van, Basic Car, Lamborghini, Bus, Metro, Small Plane, Tanks, Bomb Planes
     }

@@ -1,6 +1,7 @@
 package net.hdt.vks.client;
 
 import com.mrcrayfish.obfuscate.client.event.ModelPlayerEvent;
+import com.mrcrayfish.vehicle.entity.EntityVehicle;
 import net.hdt.vks.entity.EntityVKSAirVehicle;
 import net.hdt.vks.entity.vehicle.EntityHighBoosterBoard;
 import net.hdt.vks.entity.vehicle.EntitySantaSleight;
@@ -10,12 +11,42 @@ import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+
+import java.awt.*;
+import java.text.DecimalFormat;
 
 /**
  * Author: MrCrayfish
  */
 public class ClientEvents {
+
+    @SubscribeEvent
+    public void onRenderTick(TickEvent.RenderTickEvent event)
+    {
+        if(event.phase == TickEvent.Phase.END)
+        {
+            Minecraft mc = Minecraft.getMinecraft();
+            if(mc.inGameHasFocus)
+            {
+                EntityPlayer player = mc.player;
+                if(player != null)
+                {
+                    Entity entity = player.getRidingEntity();
+                    if(entity instanceof EntityVehicle)
+                    {
+                        String speed = new DecimalFormat("0.0").format(((EntityVehicle) entity).getKilometersPreHour());
+                        mc.fontRenderer.drawStringWithShadow(TextFormatting.BOLD + "BPS: " + TextFormatting.YELLOW + speed, 10, 10, Color.WHITE.getRGB());
+
+//                        String motion = new DecimalFormat("0.0").format(((EntityVehicle) entity).motionY);
+//                        mc.fontRenderer.drawStringWithShadow(TextFormatting.BOLD + "MotionY: " + TextFormatting.YELLOW + ((EntityVehicle) entity).motionY, 10, 30, Color.WHITE.getRGB());
+                    }
+                }
+            }
+        }
+    }
 
     @SubscribeEvent
     public void onPreRender(ModelPlayerEvent.Render.Pre event)

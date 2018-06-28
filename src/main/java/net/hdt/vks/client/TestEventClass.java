@@ -46,4 +46,21 @@ public class TestEventClass {
 
     }
 
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public void onTooltipColour (RenderTooltipEvent.Color event) {
+        // Check to see if tooltip colour was modified at all. If it has, we wont touch it.
+        if (event.getOriginalBackground() == event.getBackground() && event.getOriginalBorderEnd() == event.getBorderEnd() && event.getOriginalBorderStart() == event.getBorderStart()) {
+            event.setBorderStart(0xFFFFFF);
+            event.setBorderEnd(0x5028007f);
+            event.setBackground(0xf0100010);
+        }
+    }
+
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public void itemTooltipEvent(ItemTooltipEvent event) {
+
+    }
+
 }

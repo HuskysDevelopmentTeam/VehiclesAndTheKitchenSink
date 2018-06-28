@@ -1,6 +1,6 @@
 package net.hdt.vks.client.gui;
 
-import com.mrcrayfish.vehicle.Reference;
+import net.hdt.vks.Reference;
 import net.hdt.vks.container.ContainerVehicleCreator;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;

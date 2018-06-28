@@ -5,6 +5,8 @@ import com.mrcrayfish.vehicle.init.ModSounds;
 import com.mrcrayfish.vehicle.item.ItemSprayCan;
 import com.mrcrayfish.vehicle.network.PacketHandler;
 import com.mrcrayfish.vehicle.network.message.MessageDrift;
+import net.hdt.vks.entity.vehicle.EntityHighBoosterBoard;
+import net.hdt.vks.entity.vehicle.EntityRocket;
 import net.hdt.vks.items.ItemChromalux;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -75,11 +77,33 @@ public abstract class EntityVKSAirVehicle extends EntityVehicle {
 
         prevAdditionalYaw = additionalYaw;
 
-        for (int i = 0; i < motionY; i++) {
-            world.spawnParticle(EnumParticleTypes.DRAGON_BREATH, posX, posY - Math.random() + i, posZ, 0.0d, -1.0d, 0.0d);
-            world.spawnParticle(EnumParticleTypes.DRAGON_BREATH, posX, posY - Math.random() + i, posZ + 0.45, 0.0d, -1.0d, 0.0d);
-            world.spawnParticle(EnumParticleTypes.DRAGON_BREATH, posX, posY - Math.random() + i, posZ + 0.7, 0.0d, -1.0d, 0.0d);
+        double maxHeightLimitation = 100.0D;
+        double startSlowingDownHeight = 1.0D;
+        double startSpeedingUpHeight = 3.0D;
+
+        if(this instanceof EntityHighBoosterBoard) {
+            for (int i = 0; i < motionY; i++) {
+                world.spawnParticle(EnumParticleTypes.DRAGON_BREATH, posX, posY - Math.random() + i, posZ, 0.0d, -1.0d, 0.0d);
+                world.spawnParticle(EnumParticleTypes.DRAGON_BREATH, posX, posY - Math.random() + i, posZ + 0.45, 0.0d, -1.0d, 0.0d);
+                world.spawnParticle(EnumParticleTypes.DRAGON_BREATH, posX, posY - Math.random() + i, posZ + 0.7, 0.0d, -1.0d, 0.0d);
+            }
         }
+
+        if(this instanceof EntityRocket) {
+            if(this.motionY > 0.0F) {
+                for (int i = 0; i < motionY; i++) {
+                    world.spawnParticle(EnumParticleTypes.FLAME, posX, posY - Math.random() + i, posZ, 0.0d, -1.0d, 0.0d);
+                    world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, posX, posY - Math.random() + i - 30, posZ, 0.0d, -1.0d, 0.0d);
+                }
+            }
+            if(this.motionY > -0.1) {
+                for (double i = 0.0; i > -motionY; i++) {
+                    world.spawnParticle(EnumParticleTypes.FLAME, posX, posY - Math.random() + i, posZ, 0.0d, -1.0d, 0.0d);
+                    world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, posX, posY - Math.random() + i - 30, posZ, 0.0d, -1.0d, 0.0d);
+                }
+            }
+        }
+
     }
 
     private void updateDrifting() {
@@ -104,26 +128,68 @@ public abstract class EntityVKSAirVehicle extends EntityVehicle {
         float f1 = MathHelper.sin(this.rotationYaw * 0.017453292F) / 20F; //Divide by 20 ticks
         float f2 = MathHelper.cos(this.rotationYaw * 0.017453292F) / 20F;
         double minHeightLimitation = 0.0D;
-        double maxHeightLimitation = 3.0D;
-        this.vehicleMotionX = (-currentSpeed * f1);
+        double maxHeightLimitation = 100.0D;
+        double startSlowingDownHeight = 1.0D;
+        double startSpeedingUpHeight = 3.0D;
 
-        if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-            this.motionY += 0.5D / 30F;
-        }
+        /*
+        Time (T): the time this row represents. The first row starts at zero and for each row thereafter, T = T from previous row + dt.
+        Mass (M): the mass of the rocket at this time. M = M from previous row - dM, where dM is the "mass decrement", or the mass of fuel you think will be burned in dt.
+        Drag Force (Fd): Fd = 0.5*rho*Cd*A*V^2 where V is the velocity calculated in the previous row. Cd=drag coefficient, A=area of the rocket, rho=air density (1.2 kg/m^3 at sea level). Note: there's a little trick to drag force, see below.
+        Thrust (Ft): Rocket's thrust. For example, you can set this to the average thrust for rows from time=0 up to the row that is the burnout time, zero thereafter.
+        Net Force (F): F = Ft-Fd-M*g is the sum of thrust, drag, and weight.
+        Acceleration (Acc): Acc = F/M, where force and mass values are the ones from this row (the current time period).
+        Velocity (V): V = V from previous row + Acc*dt where Acc is the acceleration from this row (the current time period).
+        Altitude (Y): Y = Y from previous row + V*dt where V is the velocity from this row (the current time period).
+        */
 
-        if (Keyboard.isKeyDown(Keyboard.KEY_V)) {
-            this.motionY -= 0.5D / 30F;
-        }
+        if(this instanceof EntityHighBoosterBoard) {
+            if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+                this.motionY += 0.5D / 30F;
+            }
 
-        if(this.motionY > maxHeightLimitation && this.motionY > minHeightLimitation && !Keyboard.isKeyDown(Keyboard.KEY_V) || !Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-            this.motionY -= 0.03D / 50F;
-        }
+            if (Keyboard.isKeyDown(Keyboard.KEY_V)) {
+                this.motionY -= 0.5D / 30F;
+            }
 
-        if(!isBeingRidden()) {
-            if(this.motionY > minHeightLimitation) {
-                this.motionY = minHeightLimitation;
+            if(this.motionY > maxHeightLimitation && this.motionY > minHeightLimitation && !Keyboard.isKeyDown(Keyboard.KEY_V) || !Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+                this.motionY -= 0.03D / 50F;
+            }
+
+            if(!isBeingRidden()) {
+                if(this.motionY > minHeightLimitation) {
+                    this.motionY = minHeightLimitation;
+                }
             }
         }
+
+        if(this instanceof EntityRocket) {
+            if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+                /*if(motionY > startSpeedingUpHeight) {
+                    this.motionY += 1.0D / 10F;
+                } else {
+                    this.motionY += 0.7D /5F;
+                }*/
+            }
+
+            if (Keyboard.isKeyDown(Keyboard.KEY_V)) {
+                if(motionY < startSlowingDownHeight) {
+                    this.motionY -= 0.1D / 10F;
+                } else {
+                    this.motionY -= 0.7D /5F;
+                }
+            }
+
+            if(this.motionY > maxHeightLimitation && this.motionY > minHeightLimitation && !Keyboard.isKeyDown(Keyboard.KEY_V) || !Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+                if(motionY < startSlowingDownHeight) {
+                    this.motionY -= 0.1D / 10F;
+                } else {
+                    this.motionY -= 0.7D / 5F;
+                }
+            }
+        }
+
+        this.vehicleMotionX = (-currentSpeed * f1);
 
         this.vehicleMotionZ = (currentSpeed * f2);
     }
@@ -149,9 +215,9 @@ public abstract class EntityVKSAirVehicle extends EntityVehicle {
     @Override
     public boolean processInitialInteract(EntityPlayer player, EnumHand hand)
     {
+        ItemStack heldItem = player.getHeldItem(hand);
         if(!world.isRemote && !player.isSneaking())
         {
-            ItemStack heldItem = player.getHeldItem(hand);
             if(!heldItem.isEmpty() && heldItem.getItem() instanceof ItemSprayCan)
             {
                 if(canBeColored())

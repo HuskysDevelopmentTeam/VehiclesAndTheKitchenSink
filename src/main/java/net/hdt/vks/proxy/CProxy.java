@@ -47,6 +47,7 @@ public class CProxy extends SProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntitySnowMobile.class, RenderSnowMobile::new);
 
         RenderingRegistry.registerEntityRenderingHandler(EntityHighBoosterBoard.class, RenderHighBoosterBoard::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityRocket.class, RenderRocket::new);
 
         ClientRegistry.registerKeyBinding(KEY_HOVERBOARD_LOWERING);
 

@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
  * Author: MrCrayfish
  */
 public class Wheel {
+
     private float offsetX;
     private float offsetY;
     private float offsetZ;
@@ -42,7 +43,7 @@ public class Wheel {
     public void render(EntityLandVehicle vehicle, float partialTicks) {
         GlStateManager.pushMatrix();
         {
-            GlStateManager.translate((offsetX / 16F) * side.offset, offsetY, offsetZ / 16F);
+            GlStateManager.translate((offsetX / 16F) * side.offset, offsetY / 16F, offsetZ / 16F);
             GlStateManager.pushMatrix();
             {
                 if (position == Position.FRONT) {
@@ -82,6 +83,6 @@ public class Wheel {
     }
 
     public enum Position {
-        FRONT, SECOND_FRONT, REAR, SECOND_REAR, NONE;
+        FRONT, SECOND_FRONT, REAR, SECOND_REAR, NONE
     }
 }
