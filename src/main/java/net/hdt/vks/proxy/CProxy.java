@@ -2,9 +2,6 @@ package net.hdt.vks.proxy;
 
 import com.mrcrayfish.vehicle.init.RegistrationHandler;
 import com.mrcrayfish.vehicle.item.ItemSprayCan;
-import json_generator.JsonGenerator;
-import net.hdt.huskylib2.blocks.BlockMod;
-import net.hdt.huskylib2.items.ItemMod;
 import net.hdt.vks.client.ClientEvents;
 import net.hdt.vks.client.render.vehicle.*;
 import net.hdt.vks.entity.vehicle.*;
@@ -22,8 +19,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import org.lwjgl.input.Keyboard;
-
-import static net.hdt.vks.Reference.MOD_ID;
 
 public class CProxy extends SProxy {
 
@@ -58,18 +53,16 @@ public class CProxy extends SProxy {
     public void init(FMLInitializationEvent event) {
         super.init(event);
         IItemColor color = (stack, index) -> {
-            if (stack.getTagCompound() != null && index == 1 && stack.hasTagCompound() && stack.getTagCompound().hasKey("color", Constants.NBT.TAG_INT)) {
+            if(index == 1) {
+                if (stack.getTagCompound() != null && stack.hasTagCompound() && stack.getTagCompound().hasKey("color", Constants.NBT.TAG_INT)) {
+                    return stack.getTagCompound().getInteger("color");
+                }
+                return 0x7f0000; // Red
+            }
+            if (stack.getTagCompound() != null && stack.hasTagCompound() && stack.getTagCompound().hasKey("color", Constants.NBT.TAG_INT)) {
                 return stack.getTagCompound().getInteger("color");
             }
-            return 0x7f0000; // Red
-        };
-        IItemColor color2 = (stack, index) ->
-        {
-            if(index == 0 && stack.hasTagCompound() && stack.getTagCompound().hasKey("color", Constants.NBT.TAG_INT))
-            {
-                return stack.getTagCompound().getInteger("color");
-            }
-            return 0x7f0000;
+            return 0xFFFFFF; // White
         };
         ForgeRegistries.ITEMS.forEach((item) -> {
             if(item instanceof ItemChromalux || (item instanceof ItemPart && ((ItemPart) item).isColored())) Minecraft.getMinecraft().getItemColors().registerItemColorHandler(color, item);
@@ -81,14 +74,14 @@ public class CProxy extends SProxy {
                 Minecraft.getMinecraft().getItemColors().registerItemColorHandler(color, item);
             }
         });
-        ForgeRegistries.ITEMS.forEach((item) -> {
+        /*ForgeRegistries.ITEMS.forEach((item) -> {
             if(item instanceof ItemMod) JsonGenerator.genLangFile(MOD_ID, item.getUnlocalizedName(), item.getRegistryName().getResourcePath(), "items", "Item");
         });
         ForgeRegistries.BLOCKS.forEach((block) -> {
             if(block instanceof BlockMod) {
                 JsonGenerator.genLangFile(MOD_ID, block.getUnlocalizedName(), block.getRegistryName().getResourcePath(), "blocks", "Block");
             }
-        });
+        });*/
     }
 
     @Override

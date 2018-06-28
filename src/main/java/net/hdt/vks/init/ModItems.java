@@ -75,7 +75,7 @@ public class ModItems {
         BMX_BIKE_BODY = new ItemPart("bmx_bike_body").setColored();
         BMX_BIKE_HANDLE_BAR = new ItemPart("bmx_bike_handle_bar").setColored();
         SCOOTER_BODY = new ItemPart("scooter_body").setColored();
-        SCOOTER_WHEEL = new ItemPart("scooter_wheel").setColored();
+        SCOOTER_WHEEL = new ItemPart("scooter_wheel");
         SCOOTER_HANDLE_BAR = new ItemPart("scooter_handle_bar").setColored();
         MOTORCYCLE_BODY = new ItemPart("motorcycle_body").setColored();
         MOTORCYCLE_HANDLE_BAR = new ItemPart("motorcycle_handle_bar").setColored();

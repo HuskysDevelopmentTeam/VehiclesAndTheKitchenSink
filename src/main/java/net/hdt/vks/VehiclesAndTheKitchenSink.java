@@ -71,7 +71,7 @@ public class VehiclesAndTheKitchenSink {
         registerVehicle("high_booster_board", EntityHighBoosterBoard.class);
         registerVehicle("rocket", EntityRocket.class);
 
-        //TODO: Add Small Truck, UFO, Plane, Helicopter, Rocket, Car Trailer, Mini Van, Basic Car, Lamborghini, Bus, Metro, Small Plane, Tanks, Bomb Planes
+        //TODO: Add Small Truck, UFO, Plane, Helicopter, Car Trailer, Mini Van, Basic Car, Lamborghini, Bus, Metro, Small Plane, Tanks, Bomb Planes
     }
 
     private void registerVehicle(String id, Class<? extends EntityVehicle> clazz) {

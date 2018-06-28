@@ -66,7 +66,6 @@ public class RenderScooter extends RenderLandVehicle<EntityScooter> {
                 GlStateManager.translate(0, 0.5, 10.5 * 0.0625);
                 GlStateManager.rotate(-22.5F, 1, 0, 0);
 
-                float wheelScale = 1.65F;
                 float wheelAngle = entity.prevWheelAngle + (entity.wheelAngle - entity.prevWheelAngle) * partialTicks;
                 float wheelAngleNormal = wheelAngle / 45F;
                 float turnRotation = wheelAngleNormal * 25F;
@@ -77,15 +76,27 @@ public class RenderScooter extends RenderLandVehicle<EntityScooter> {
 
                 Minecraft.getMinecraft().getRenderItem().renderItem(entity.handleBar, ItemCameraTransforms.TransformType.NONE);
 
+                float frontWheelSpin = entity.prevFrontWheelRotation + (entity.frontWheelRotation - entity.prevFrontWheelRotation);
+                float rearWheelSpin = entity.prevRearWheelRotation + (entity.rearWheelRotation - entity.prevRearWheelRotation);
+
                 GlStateManager.pushMatrix();
                 {
-                    GlStateManager.translate(0, -0.5 + 1.7 * 0.0625, 13 * 0.0625);
-                    float frontWheelSpin = entity.prevFrontWheelRotation + (entity.frontWheelRotation - entity.prevFrontWheelRotation) * partialTicks;
-                    if (entity.isMoving()) {
-                        GlStateManager.rotate(-frontWheelSpin, 1, 0, 0);
+                    GlStateManager.translate(0, 0, 0);
+                    if(entity.isMoving())
+                    {
+//                        GlStateManager.rotate(-rearWheelSpin, 0, 0, 0);
                     }
-                    GlStateManager.scale(wheelScale, wheelScale, wheelScale);
-                    GlStateManager.rotate(180F, 0, 1, 0);
+                    Minecraft.getMinecraft().getRenderItem().renderItem(entity.wheel, ItemCameraTransforms.TransformType.NONE);
+                }
+                GlStateManager.popMatrix();
+
+                GlStateManager.pushMatrix();
+                {
+                    GlStateManager.translate(0, -0.02, -0.99);
+                    if(entity.isMoving())
+                    {
+//                        GlStateManager.rotate(-frontWheelSpin, 0, 0, 0);
+                    }
                     Minecraft.getMinecraft().getRenderItem().renderItem(entity.wheel, ItemCameraTransforms.TransformType.NONE);
                 }
                 GlStateManager.popMatrix();
