@@ -1,6 +1,7 @@
 package net.hdt.vks.client;
 
 import com.mrcrayfish.obfuscate.client.event.ModelPlayerEvent;
+import com.mrcrayfish.vehicle.entity.EntityPoweredVehicle;
 import com.mrcrayfish.vehicle.entity.EntityVehicle;
 import net.hdt.vks.entity.EntityVKSAirVehicle;
 import net.hdt.vks.entity.vehicle.EntityHighBoosterBoard;
@@ -37,7 +38,7 @@ public class ClientEvents {
                     Entity entity = player.getRidingEntity();
                     if(entity instanceof EntityVehicle)
                     {
-                        String speed = new DecimalFormat("0.0").format(((EntityVehicle) entity).getKilometersPreHour());
+                        String speed = new DecimalFormat("0.0").format(((EntityPoweredVehicle) entity).getKilometersPreHour());
                         mc.fontRenderer.drawStringWithShadow(TextFormatting.BOLD + "BPS: " + TextFormatting.YELLOW + speed, 10, 10, Color.WHITE.getRGB());
 
 //                        String motion = new DecimalFormat("0.0").format(((EntityVehicle) entity).motionY);
@@ -102,6 +103,14 @@ public class ClientEvents {
             model.bipedRightLeg.rotateAngleX = (float) Math.toRadians(-90F);
             model.bipedRightLeg.rotateAngleY = (float) Math.toRadians(15F);
             model.bipedLeftLeg.rotateAngleX = (float) Math.toRadians(-90F);
+            model.bipedLeftLeg.rotateAngleY = (float) Math.toRadians(-15F);
+        }
+
+        if(ridingEntity instanceof EntityVKSAirVehicle)
+        {
+            model.bipedRightLeg.rotateAngleX = (float) Math.toRadians(0);
+            model.bipedRightLeg.rotateAngleY = (float) Math.toRadians(15F);
+            model.bipedLeftLeg.rotateAngleX = (float) Math.toRadians(0);
             model.bipedLeftLeg.rotateAngleY = (float) Math.toRadians(-15F);
         }
     }

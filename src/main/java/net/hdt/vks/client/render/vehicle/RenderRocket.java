@@ -1,7 +1,9 @@
 package net.hdt.vks.client.render.vehicle;
 
+import com.mrcrayfish.vehicle.client.render.RenderPoweredVehicle;
+import com.mrcrayfish.vehicle.client.render.RenderVehicle;
 import com.mrcrayfish.vehicle.client.render.Wheel;
-import net.hdt.vks.client.render.RenderAirVehicle;
+import com.mrcrayfish.vehicle.client.render.vehicle.RenderSportsPlane;
 import net.hdt.vks.entity.vehicle.EntityRocket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -10,23 +12,21 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
 
-public class RenderRocket extends RenderAirVehicle<EntityRocket> {
+public class RenderRocket extends RenderPoweredVehicle<EntityRocket> {
 
     public RenderRocket(RenderManager renderManager) {
         super(renderManager);
-        this.wheels.add(new Wheel(Wheel.Side.NONE, Wheel.Position.REAR, 0F, -6.7F, 1.65F));
     }
 
     @Override
     public void doRender(EntityRocket entity, double x, double y, double z, float currentYaw, float partialTicks) {
         RenderHelper.enableStandardItemLighting();
 
-        float additionalYaw = entity.prevAdditionalYaw + (entity.additionalYaw - entity.prevAdditionalYaw) * partialTicks;
-
         EntityLivingBase entityLivingBase = (EntityLivingBase) entity.getControllingPassenger();
-        if (entityLivingBase != null) {
-            entityLivingBase.renderYawOffset = currentYaw - additionalYaw;
-            entityLivingBase.prevRenderYawOffset = currentYaw - additionalYaw;
+        if(entityLivingBase != null)
+        {
+            entityLivingBase.renderYawOffset = currentYaw;
+            entityLivingBase.prevRenderYawOffset = currentYaw;
         }
 
         GlStateManager.pushMatrix();

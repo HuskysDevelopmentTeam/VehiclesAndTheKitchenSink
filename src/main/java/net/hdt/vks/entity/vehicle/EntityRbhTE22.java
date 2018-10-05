@@ -4,6 +4,7 @@ import com.mrcrayfish.vehicle.init.ModSounds;
 import net.hdt.vks.entity.EntityVKSLandVehicle;
 import net.hdt.vks.init.ModItems;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 

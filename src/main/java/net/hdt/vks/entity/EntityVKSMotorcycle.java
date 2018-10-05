@@ -1,6 +1,7 @@
 package net.hdt.vks.entity;
 
 import com.mrcrayfish.vehicle.entity.EntityMotorcycle;
+import com.mrcrayfish.vehicle.entity.EntityPoweredVehicle;
 import com.mrcrayfish.vehicle.init.ModSounds;
 import com.mrcrayfish.vehicle.item.ItemSprayCan;
 import net.hdt.vks.items.ItemChromalux;

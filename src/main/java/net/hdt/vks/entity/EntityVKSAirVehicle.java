@@ -1,5 +1,7 @@
 package net.hdt.vks.entity;
 
+import com.mrcrayfish.vehicle.entity.EntityAirVehicle;
+import com.mrcrayfish.vehicle.entity.EntityPoweredVehicle;
 import com.mrcrayfish.vehicle.entity.EntityVehicle;
 import com.mrcrayfish.vehicle.init.ModSounds;
 import com.mrcrayfish.vehicle.item.ItemSprayCan;
@@ -26,7 +28,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import org.lwjgl.input.Keyboard;
 
-public abstract class EntityVKSAirVehicle extends EntityVehicle {
+public abstract class EntityVKSAirVehicle extends EntityAirVehicle {
 
     private static final DataParameter<Boolean> DRIFTING = EntityDataManager.createKey(EntityVehicle.class, DataSerializers.BOOLEAN);
 
@@ -43,7 +45,6 @@ public abstract class EntityVKSAirVehicle extends EntityVehicle {
 
     @Override
     public void entityInit() {
-        super.entityInit();
         this.dataManager.register(DRIFTING, false);
     }
 
@@ -86,21 +87,6 @@ public abstract class EntityVKSAirVehicle extends EntityVehicle {
                 world.spawnParticle(EnumParticleTypes.DRAGON_BREATH, posX, posY - Math.random() + i, posZ, 0.0d, -1.0d, 0.0d);
                 world.spawnParticle(EnumParticleTypes.DRAGON_BREATH, posX, posY - Math.random() + i, posZ + 0.45, 0.0d, -1.0d, 0.0d);
                 world.spawnParticle(EnumParticleTypes.DRAGON_BREATH, posX, posY - Math.random() + i, posZ + 0.7, 0.0d, -1.0d, 0.0d);
-            }
-        }
-
-        if(this instanceof EntityRocket) {
-            if(this.motionY > 0.0F) {
-                for (int i = 0; i < motionY; i++) {
-                    world.spawnParticle(EnumParticleTypes.FLAME, posX, posY - Math.random() + i, posZ, 0.0d, -1.0d, 0.0d);
-                    world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, posX, posY - Math.random() + i - 30, posZ, 0.0d, -1.0d, 0.0d);
-                }
-            }
-            if(this.motionY > -0.1) {
-                for (double i = 0.0; i > -motionY; i++) {
-                    world.spawnParticle(EnumParticleTypes.FLAME, posX, posY - Math.random() + i, posZ, 0.0d, -1.0d, 0.0d);
-                    world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, posX, posY - Math.random() + i - 30, posZ, 0.0d, -1.0d, 0.0d);
-                }
             }
         }
 
@@ -159,32 +145,6 @@ public abstract class EntityVKSAirVehicle extends EntityVehicle {
             if(!isBeingRidden()) {
                 if(this.motionY > minHeightLimitation) {
                     this.motionY = minHeightLimitation;
-                }
-            }
-        }
-
-        if(this instanceof EntityRocket) {
-            if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-                /*if(motionY > startSpeedingUpHeight) {
-                    this.motionY += 1.0D / 10F;
-                } else {
-                    this.motionY += 0.7D /5F;
-                }*/
-            }
-
-            if (Keyboard.isKeyDown(Keyboard.KEY_V)) {
-                if(motionY < startSlowingDownHeight) {
-                    this.motionY -= 0.1D / 10F;
-                } else {
-                    this.motionY -= 0.7D /5F;
-                }
-            }
-
-            if(this.motionY > maxHeightLimitation && this.motionY > minHeightLimitation && !Keyboard.isKeyDown(Keyboard.KEY_V) || !Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-                if(motionY < startSlowingDownHeight) {
-                    this.motionY -= 0.1D / 10F;
-                } else {
-                    this.motionY -= 0.7D / 5F;
                 }
             }
         }
